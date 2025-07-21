@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Accademia degli Arcani</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&display=swap');
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #000; 
+                background-size: cover; 
+                background-position: center; 
+                background-repeat: no-repeat;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                overflow: hidden; 
+                font-family: 'Bitcount Prop Single', system-ui;
+                font-optical-sizing: auto;
+                font-weight: 600;
+                font-style: normal;
+                font-variation-settings:
+                    "slnt" 0,
+                    "CRSV" 0.5,
+                    "ELSH" 0,
+                    "ELXP" 0;
+                color: #e0d0b0;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+            }
+
+            #game-container {
+                width: 90%;
+                max-width: 1000px;
+                height: 90vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background-color: rgba(0, 0, 0, 0.5); 
+                border: 1px solid rgba(255, 255, 255, 0.2); 
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            }
+
+            #game-output {
+                flex-grow: 1;
+                overflow-y: auto;
+                white-space: pre-wrap;
+                text-align: left;
+                padding-bottom: 20px;
+                font-size: 1.5em;
+                line-height: 1.6; 
+                border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+                margin-bottom: 20px;
+                font-family: 'Bitcount Prop Single', system-ui;
+                font-optical-sizing: auto;
+                font-weight: 600;
+                font-style: normal;
+                font-variation-settings:
+                    "slnt" 0,
+                    "CRSV" 0.5,
+                    "ELSH" 0,
+                    "ELXP" 0;
+            }
+
+            button {
+                background-color: #4a3d2b; 
+                color: #e0d0b0; 
+                border: 1px solid #7a6d5b; 
+                padding: 10px 20px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1.5em;
+                font-family: 'Bitcount Prop Single', system-ui;
+                font-optical-sizing: auto;
+                font-weight: 600;
+                font-style: normal;
+                font-variation-settings:
+                    "slnt" 0,
+                    "CRSV" 0.5,
+                    "ELSH" 0,
+                    "ELXP" 0;
+                transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Piccola ombra */
+            }
+
+            button:hover {
+                background-color: #6a5d4b; 
+                border-color: #9a8d7b;
+                color: #fff;
+            }
+
+            button:disabled {
+                background-color: #333;
+                color: #666;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+
+            #command-input {
+                background-color: rgba(0, 0, 0, 0.6); 
+                color: #e0d0b0;
+                border: 1px solid #7a6d5b; 
+                padding: 10px;
+                font-size: 1.5em;
+                font-family: 'Bitcount Prop Single', system-ui;
+                font-optical-sizing: auto;
+                font-weight: 600;
+                font-style: normal;
+                font-variation-settings:
+                    "slnt" 0,
+                    "CRSV" 0.5,
+                    "ELSH" 0,
+                    "ELXP" 0;
+                flex-grow: 1;
+                margin-right: 10px;
+                border-radius: 5px;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            }
+
+            #command-input:focus {
+                outline: none;
+                border-color: #b0a080; 
+                box-shadow: 0 0 8px rgba(224, 208, 176, 0.5); 
+            }
+
+            #input-area, #menu-area, #game-actions {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-top: 10px;
+                border-top: 1px dashed rgba(255, 255, 255, 0.1); 
+            }
+
+            .hidden {
+                display: none !important;
+            }
+
+            #final-message {
+                text-align: center;
+                color: #cc0000; 
+                font-weight: bold;
+                margin-top: 20px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="game-container">
+            <pre id="game-output"></pre> 
+
+            <div id="input-area" class="hidden">
+                <input type="text" id="command-input" placeholder="Scrivi il tuo comando...">
+                <button id="submit-button">Invia</button>
+            </div>
+
+            <div id="menu-area">
+                <button id="menu-new-game-button">Nuova Partita</button>
+                <button id="menu-load-game-button">Carica Partita</button>
+            </div>
+
+            <div id="game-actions" class="hidden">
+                <button id="save-game-button">Salva</button>
+                <button id="load-game-button">Carica</button>
+                <button id="new-game-button">Nuova Partita</button>
+            </div>
+
+            <div id="final-message" class="hidden"></div>
+        </div>
+
+        <script th:src="@{/js/game.js}"></script>
+    </body>
+</html>

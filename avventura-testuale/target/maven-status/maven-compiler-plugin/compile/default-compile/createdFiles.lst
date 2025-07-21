@@ -1,0 +1,12 @@
+com/marcovillano/avventura_testuale/GameController.class
+com/marcovillano/avventura_testuale/Player.class
+com/marcovillano/avventura_testuale/GameState.class
+com/marcovillano/avventura_testuale/Item.class
+com/marcovillano/avventura_testuale/Puzzle.class
+com/marcovillano/avventura_testuale/GameController$GameResponse.class
+com/marcovillano/avventura_testuale/GameService.class
+com/marcovillano/avventura_testuale/Room.class
+com/marcovillano/avventura_testuale/GameSaver.class
+com/marcovillano/avventura_testuale/NPC.class
+com/marcovillano/avventura_testuale/GameController$CommandRequest.class
+com/marcovillano/avventura_testuale/AvventuraTestualeApplication.class
